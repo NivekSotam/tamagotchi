@@ -11,6 +11,12 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4A60CE',
+  },
   card: {
     backgroundColor: '#FFF',
     borderRadius: 10,
@@ -117,7 +123,7 @@ const Login = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.card}>
         <Animated.Image
           source={require('../imagens/tamagochi.png')}
