@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Animated,
+  Easing,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
   input: {
     width: 250,
     height: 40,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: 'black',
     borderRadius: 20,
     paddingHorizontal: 20,
   },
@@ -50,6 +52,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+
   tamagotchiImage: {
     width: 200,
     height: 200,
@@ -58,20 +61,67 @@ const styles = StyleSheet.create({
 });
 
 const Login = () => {
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState<string>('');
+  const rotationValue = new Animated.Value(0);
 
+  useEffect(() => {
+    const rotationInterval = setInterval(() => {
+      rotateImage();
+    }, 2000);
+
+    return () => clearInterval(rotationInterval);
+  }, []);
   const handleLogin = () => {
     console.log('Email:', email);
     console.log('Password:', password);
   };
 
+  const rotateImage = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(rotationValue, {
+          toValue: 5,
+          duration: 1000,
+          useNativeDriver: true,
+          easing: Easing.linear,
+        }),
+        Animated.timing(rotationValue, {
+          toValue: -45,
+          duration: 1000,
+          useNativeDriver: true,
+          easing: Easing.linear,
+        }),
+        Animated.timing(rotationValue, {
+          toValue: 45,
+          duration: 1000,
+          useNativeDriver: true,
+          easing: Easing.linear,
+        }),
+      ]),
+      {
+        iterations: 4,
+      },
+    ).start();
+  };
+
+  const rotateStyle = {
+    transform: [
+      {
+        rotate: rotationValue.interpolate({
+          inputRange: [0, 10, 45, 55],
+          outputRange: ['0deg', '10deg', '-45deg', '45deg'],
+        }),
+      },
+    ],
+  };
+
   return (
     <View>
       <View style={styles.card}>
-        <Image
+        <Animated.Image
           source={require('../imagens/tamagochi.png')}
-          style={styles.tamagotchiImage}
+          style={[styles.tamagotchiImage, rotateStyle]}
         />
         <Text style={styles.title}>Faça Seu Login</Text>
         <View style={styles.inputContainer}>
