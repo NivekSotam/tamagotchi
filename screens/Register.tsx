@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignItems: 'center',
-    marginLeft: 20,
   },
   buttonText: {
     color: '#FFF',
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Login = () => {
+const Login = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState<string>('');
   const rotationValue = new Animated.Value(0);
@@ -122,7 +121,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        'https://tamagochiapi-clpsampedro.b4a.run/login',
+        'https://tamagochiapi-clpsampedro.b4a.run/Register',
         {
           email,
           password,
@@ -146,7 +145,7 @@ const Login = () => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="EmaiL"
+            placeholder="Email"
             onChangeText={text => setEmail(text)}
             value={email}
           />
@@ -162,10 +161,7 @@ const Login = () => {
         </View>
         <View style={styles.inputContainer}>
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Register</Text>
+            <Text style={styles.buttonText}>Registre-se</Text>
           </TouchableOpacity>
         </View>
       </View>

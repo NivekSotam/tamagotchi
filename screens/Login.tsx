@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Login = () => {
+const Login = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState<string>('');
   const rotationValue = new Animated.Value(0);
@@ -146,7 +146,7 @@ const Login = () => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="EmaiL"
+            placeholder="Email"
             onChangeText={text => setEmail(text)}
             value={email}
           />
@@ -164,8 +164,12 @@ const Login = () => {
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Register</Text>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => {
+              navigation.navigate('Register');
+            }}>
+            <Text style={styles.buttonText}>Registre-se</Text>
           </TouchableOpacity>
         </View>
       </View>
