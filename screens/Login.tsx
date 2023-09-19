@@ -5,11 +5,11 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image,
   Animated,
   Easing,
+  Alert,
 } from 'react-native';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 
 const styles = StyleSheet.create({
   container: {
@@ -128,11 +128,40 @@ const Login = ({navigation}: any) => {
           password,
         },
       );
-      console.log('====================================');
-      console.log(response);
-      console.log('====================================');
+      console.log('Response status:', response.status);
+
+      if (response.status === 200) {
+        navigation.navigate('Home');
+      } else {
+        Alert.alert(
+          'Erro',
+          'Email ou senha invalidos. Ocorreu um erro durante seu login',
+        );
+      }
     } catch (error) {
-      console.error('An error occurred:', error);
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response) {
+          const status = axiosError.response.status;
+          if (status === 500) {
+            Alert.alert(
+              'Erro',
+              'Ocorreu um erro interno do servidor. Tente novamente mais tarde.',
+            );
+          } else if (status === 401) {
+            Alert.alert(
+              'Erro de Autenticação',
+              'Credenciais inválidas. Verifique seu email e senha.',
+            );
+          } else {
+            console.error('An error occurred:', error);
+          }
+        } else {
+          console.error('An error occurred:', error);
+        }
+      } else {
+        console.error('An error occurred:', error);
+      }
     }
   };
 
