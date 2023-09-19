@@ -1,13 +1,13 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image,
   Animated,
   Easing,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
 
@@ -64,11 +64,25 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 10,
   },
+  confirmPasswordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  confirmPasswordInput: {
+    width: 250,
+    height: 40,
+    backgroundColor: '#c8cdd3',
+    borderRadius: 20,
+    paddingHorizontal: 20,
+  },
 });
 
-const Login = ({navigation}: any) => {
+const Register = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [hasEmailError, setHasEmailError] = useState(false);
   const rotationValue = new Animated.Value(0);
 
   useEffect(() => {
@@ -118,7 +132,30 @@ const Login = ({navigation}: any) => {
     ],
   };
 
-  const handleLogin = async () => {
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    setHasEmailError(!emailRegex.test(text));
+  };
+
+  const handleRegister = async () => {
+    if (hasEmailError || !email) {
+      Alert.alert('Erro', 'O email fornecido não é válido.');
+      return;
+    }
+
+    if (password.length < 6) {
+      Alert.alert('Erro', 'A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Erro', 'As senhas não coincidem.');
+      return;
+    }
+
     try {
       const response = await axios.post(
         'https://tamagochiapi-clpsampedro.b4a.run/Register',
@@ -127,9 +164,19 @@ const Login = ({navigation}: any) => {
           password,
         },
       );
-      console.log('====================================');
-      console.log(response);
-      console.log('====================================');
+
+      if (response.status === 200) {
+        Alert.alert(
+          'Registro Bem-Sucedido',
+          'Seu registro foi concluído com sucesso.',
+        );
+        navigation.navigate('Login');
+      } else {
+        Alert.alert(
+          'Erro',
+          'Ocorreu um erro durante o registro. Tente novamente mais tarde.',
+        );
+      }
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -146,7 +193,7 @@ const Login = ({navigation}: any) => {
           <TextInput
             style={styles.input}
             placeholder="Email"
-            onChangeText={text => setEmail(text)}
+            onChangeText={handleEmailChange}
             value={email}
           />
         </View>
@@ -159,8 +206,17 @@ const Login = ({navigation}: any) => {
             value={password}
           />
         </View>
+        <View style={styles.confirmPasswordContainer}>
+          <TextInput
+            style={styles.confirmPasswordInput}
+            placeholder="Confirm Password"
+            secureTextEntry
+            onChangeText={text => setConfirmPassword(text)}
+            value={confirmPassword}
+          />
+        </View>
         <View style={styles.inputContainer}>
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <TouchableOpacity style={styles.loginButton} onPress={handleRegister}>
             <Text style={styles.buttonText}>Registre-se</Text>
           </TouchableOpacity>
         </View>
@@ -169,4 +225,4 @@ const Login = ({navigation}: any) => {
   );
 };
 
-export default Login;
+export default Register;
