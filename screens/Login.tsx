@@ -10,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import axios, {AxiosError} from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
   container: {
@@ -128,9 +129,16 @@ const Login = ({navigation}: any) => {
           password,
         },
       );
-      console.log('Response status:', response.status);
+
+      console.log(response);
 
       if (response.status === 200) {
+        const token = response.data.token;
+
+        await AsyncStorage.setItem('token', token);
+
+        console.log(token);
+
         navigation.navigate('Home');
       } else {
         Alert.alert(
@@ -141,8 +149,10 @@ const Login = ({navigation}: any) => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
+
         if (axiosError.response) {
           const status = axiosError.response.status;
+
           if (status === 500) {
             Alert.alert(
               'Erro',
@@ -153,14 +163,15 @@ const Login = ({navigation}: any) => {
               'Erro de Autenticação',
               'Credenciais inválidas. Verifique seu email e senha.',
             );
-          } else {
-            console.error('An error occurred:', error);
           }
-        } else {
           console.error('An error occurred:', error);
+          //     }
+          //   } else {
+          //     console.error('An error occurred:', error);
+          //   }
+          // } else {
+          //   console.error('An error occurred:', error);
         }
-      } else {
-        console.error('An error occurred:', error);
       }
     }
   };

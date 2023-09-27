@@ -164,12 +164,13 @@ const Register = ({navigation}: any) => {
           password,
         },
       );
-
+      console.log(response);
       if (response.status === 200) {
         Alert.alert(
           'Registro Bem-Sucedido',
           'Seu registro foi concluído com sucesso.',
         );
+
         navigation.navigate('Login');
       } else {
         Alert.alert(

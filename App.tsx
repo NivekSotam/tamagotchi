@@ -11,7 +11,21 @@ function App(): JSX.Element {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            title: 'Login',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#4A60CE',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
