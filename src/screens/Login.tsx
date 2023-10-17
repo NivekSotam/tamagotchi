@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,9 @@ import {
   Easing,
   Alert,
 } from 'react-native';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useUserStore from '../stores/userStore';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignItems: 'center',
+    marginLeft: 20,
   },
   buttonText: {
     color: '#FFF',
@@ -64,26 +67,14 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 10,
   },
-  confirmPasswordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  confirmPasswordInput: {
-    width: 250,
-    height: 40,
-    backgroundColor: '#c8cdd3',
-    borderRadius: 20,
-    paddingHorizontal: 20,
-  },
 });
 
-const Register = ({navigation}: any) => {
+const Login = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [hasEmailError, setHasEmailError] = useState(false);
   const rotationValue = new Animated.Value(0);
+
+  const store = useUserStore();
 
   useEffect(() => {
     const rotationInterval = setInterval(() => {
@@ -132,54 +123,53 @@ const Register = ({navigation}: any) => {
     ],
   };
 
-  const handleEmailChange = (text: string) => {
-    setEmail(text);
-
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-    setHasEmailError(!emailRegex.test(text));
-  };
-
-  const handleRegister = async () => {
-    if (hasEmailError || !email) {
-      Alert.alert('Erro', 'O email fornecido não é válido.');
-      return;
-    }
-
-    if (password.length < 6) {
-      Alert.alert('Erro', 'A senha deve ter pelo menos 6 caracteres.');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert('Erro', 'As senhas não coincidem.');
-      return;
-    }
-
+  const handleLogin = async () => {
     try {
       const response = await axios.post(
-        'https://tamagochiapi-clpsampedro.b4a.run/Register',
+        'https://tamagochiapi-clpsampedro.b4a.run/login',
         {
           email,
           password,
         },
       );
-      console.log(response);
-      if (response.status === 200) {
-        Alert.alert(
-          'Registro Bem-Sucedido',
-          'Seu registro foi concluído com sucesso.',
-        );
 
-        navigation.navigate('Login');
+      console.log(response);
+
+      if (response.status === 200) {
+        const token = response.data.token;
+
+        store.setToken(token);
+
+        console.log(token);
+
+        navigation.navigate('Home');
       } else {
         Alert.alert(
           'Erro',
-          'Ocorreu um erro durante o registro. Tente novamente mais tarde.',
+          'Email ou senha invalidos. Ocorreu um erro durante seu login',
         );
       }
     } catch (error) {
-      console.error('An error occurred:', error);
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+
+        if (axiosError.response) {
+          const status = axiosError.response.status;
+
+          if (status === 500) {
+            Alert.alert(
+              'Erro',
+              'Ocorreu um erro interno do servidor. Tente novamente mais tarde.',
+            );
+          } else if (status === 401) {
+            Alert.alert(
+              'Erro de Autenticação',
+              'Credenciais inválidas. Verifique seu email e senha.',
+            );
+          }
+          console.error('An error occurred:', error);
+        }
+      }
     }
   };
 
@@ -187,14 +177,14 @@ const Register = ({navigation}: any) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <Animated.Image
-          source={require('../imagens/tamagochi.png')}
+          source={require('../../imagens/tamagochi.png')}
           style={[styles.tamagotchiImage, rotateStyle]}
         />
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="Email"
-            onChangeText={handleEmailChange}
+            onChangeText={text => setEmail(text)}
             value={email}
           />
         </View>
@@ -207,17 +197,15 @@ const Register = ({navigation}: any) => {
             value={password}
           />
         </View>
-        <View style={styles.confirmPasswordContainer}>
-          <TextInput
-            style={styles.confirmPasswordInput}
-            placeholder="Confirm Password"
-            secureTextEntry
-            onChangeText={text => setConfirmPassword(text)}
-            value={confirmPassword}
-          />
-        </View>
         <View style={styles.inputContainer}>
-          <TouchableOpacity style={styles.loginButton} onPress={handleRegister}>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => {
+              navigation.navigate('Register');
+            }}>
             <Text style={styles.buttonText}>Registre-se</Text>
           </TouchableOpacity>
         </View>
@@ -226,4 +214,4 @@ const Register = ({navigation}: any) => {
   );
 };
 
-export default Register;
+export default Login;
