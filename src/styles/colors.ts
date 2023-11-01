@@ -8,5 +8,5 @@ export const colors = {
   tertiary: '#4A60CE',
   onTertiary: '#ffb2ba',
   ternaryContainer: '#f6ee8d',
-  error: '#c9c483',
+  error: '#F50039',
 };

@@ -5,6 +5,7 @@ import usePetsStore from '../stores/pets';
 import {colors} from '../styles/colors';
 import useFeedbackStore, {FeedbackMessage} from '../stores/feedback';
 import axios from '../axios.config';
+import {useNavigation} from '@react-navigation/native';
 
 const {Title} = Card;
 const {Image} = Avatar;
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightblue',
   },
   texto: {
-    color: 'black', // Defina a cor do texto como preto
+    color: 'black',
   },
 });
 
@@ -45,6 +46,7 @@ type PetType = {
 const ListItem = ({id, name, funLevel, life}: PetType) => {
   const {showMessage} = useFeedbackStore();
   const {getPets} = usePetsStore();
+  const {navigate} = useNavigation<any>();
 
   const left = () => (
     <Image size={80} source={require('../../imagens/tamagochi.png')} />
@@ -56,7 +58,7 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
         style={styles.icon}
         icon="pencil"
         iconColor={colors.secondary}
-        onPress={() => handleEdit(id)}
+        onPress={() => handleEdit()}
       />
       <IconButton
         style={styles.icon}
@@ -66,6 +68,10 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
       />
     </View>
   );
+
+  const handleEdit = () => {
+    navigate('Editar Bixinho', {petId: id});
+  };
 
   return (
     <Card mode="contained" style={styles.cardContent}>
@@ -86,10 +92,6 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
       />
     </Card>
   );
-};
-
-const handleEdit = (id: number) => {
-  console.log(id);
 };
 
 const handleDelete = async (
@@ -128,7 +130,7 @@ const Home = ({navigation}: any) => {
         style={styles.addButton}
         icon="plus"
         mode="contained"
-        onPress={() => navigation.navigate('Create Pet')}>
+        onPress={() => navigation.navigate('Criar Bixinho')}>
         Adicionar
       </Button>
       <FlatList
