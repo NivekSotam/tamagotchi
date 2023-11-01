@@ -1,20 +1,24 @@
 import React from 'react';
-import Login from './src/screens/Login';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Register from './src/screens/Register';
-import Home from './src/screens/Home';
-import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
+import {
+  MD3LightTheme,
+  IconButton,
+  Provider as PaperProvider,
+} from 'react-native-paper';
 import useUserStore from './src/stores/userStore';
+import Home from './src/screens/Home';
+import Login from './src/screens/Login';
+import Register from './src/screens/Register';
 import CreatePet from './src/screens/CreatePet';
 import Feedback from './src/components/Feedback';
 import {colors} from './src/styles/colors';
 
 const theme = {
-  ...DefaultTheme,
+  ...MD3LightTheme,
   myOwnProperty: true,
   colors: {
-    ...DefaultTheme.colors,
+    ...MD3LightTheme.colors,
     primary: colors.ternaryContainer,
     secondary: colors.secondary,
     tertiary: colors.tertiary,
@@ -45,7 +49,7 @@ function App(): JSX.Element {
               <Stack.Screen
                 name="Home"
                 component={Home}
-                options={{
+                options={({navigation}) => ({
                   title: 'HOME',
                   headerTitleAlign: 'center',
                   headerStyle: {
@@ -55,7 +59,13 @@ function App(): JSX.Element {
                   headerTitleStyle: {
                     fontWeight: 'bold',
                   },
-                }}
+                  headerLeft: () => (
+                    <IconButton
+                      icon="arrow-left"
+                      onPress={() => store.resetToken()}
+                    />
+                  ),
+                })}
               />
               <Stack.Screen
                 name="Create Pet"

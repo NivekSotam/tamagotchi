@@ -14,6 +14,11 @@ const styles = StyleSheet.create({
   actionsContainer: {
     flexDirection: 'row',
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#4A60CE',
+  },
+  butao: {},
 });
 
 type Input = {
@@ -63,7 +68,7 @@ const CreatePet = ({navigation}: any) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View style={styles.cardContainer}>
         <InputText
           label="Nome"
@@ -75,7 +80,11 @@ const CreatePet = ({navigation}: any) => {
           disabled={loading}
         />
         <View style={styles.actionsContainer}>
-          <Button disabled={loading} mode="contained" onPress={handleSubmit}>
+          <Button
+            style={styles.butao}
+            disabled={loading}
+            mode="contained"
+            onPress={handleSubmit}>
             Salvar
           </Button>
           <Button disabled={loading} onPress={() => navigation.goBack()}>

@@ -13,15 +13,25 @@ const styles = StyleSheet.create({
   icon: {
     margin: 0,
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#4A60CE',
+  },
   title: {
     marginLeft: 50,
+    color: 'black',
   },
   cardContent: {
     margin: 20,
     padding: 20,
+    backgroundColor: 'lightblue',
   },
   addButton: {
     margin: 20,
+    backgroundColor: 'lightblue',
+  },
+  texto: {
+    color: 'black', // Defina a cor do texto como preto
   },
 });
 
@@ -64,8 +74,8 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
         titleVariant="titleLarge"
         subtitle={
           <View>
-            <Text>Vida: {life}</Text>
-            <Text>Diversão: {funLevel}</Text>
+            <Text style={styles.texto}>Vida: {life}</Text>
+            <Text style={styles.texto}>Diversão: {funLevel}</Text>
           </View>
         }
         subtitleNumberOfLines={2}
@@ -113,7 +123,7 @@ const Home = ({navigation}: any) => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Button
         style={styles.addButton}
         icon="plus"
