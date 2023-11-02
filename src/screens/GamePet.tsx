@@ -14,7 +14,8 @@ const choices: Choice[] = [
   {name: 'Tesoura', icon: 'content-cut'},
 ];
 
-const GamePet = ({navigation}: {navigation: any}) => {
+const GamePet = ({route, navigation}: {route: any; navigation: any}) => {
+  const {petName} = route.params;
   const theme = useTheme();
   const [result, setResult] = useState('');
   const [userChoice, setUserChoice] = useState('');
@@ -55,25 +56,25 @@ const GamePet = ({navigation}: {navigation: any}) => {
             <Card style={styles.imageCard}>
               <Image
                 style={styles.image}
-                source={require('../../imagens/tamagochi.png')}
+                source={require('../../imagens/coxinha.png')}
               />
             </Card>
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.score}>
-              Placar do computador: {computerScore}
+              Placar do {petName}: {computerScore}
             </Text>
             <View style={styles.choiceContainer}>
               {computerChoice && (
                 <>
                   <Text>
-                    O computador escolheu: {computerChoice.name}{' '}
-                    <IconButton
-                      icon={computerChoice.icon}
-                      iconColor={colors.secondary}
-                      size={20}
-                    />
+                    {petName} escolheu: {computerChoice.name}{' '}
                   </Text>
+                  <IconButton
+                    icon={computerChoice.icon}
+                    iconColor={colors.secondary}
+                    size={20}
+                  />
                 </>
               )}
             </View>
@@ -96,9 +97,9 @@ const GamePet = ({navigation}: {navigation: any}) => {
       </View>
       <Button
         mode="contained"
-        color="lightblue"
+        buttonColor="lightblue"
         onPress={() => navigation.goBack()}
-        contentStyle={{height: 50}}>
+        contentStyle={{width: '100%'}}>
         Voltar
       </Button>
     </View>

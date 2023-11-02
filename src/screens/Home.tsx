@@ -114,7 +114,7 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
         message: 'Iniciando o jogo...',
         visible: true,
       });
-      navigate('Jogo', {petId: id});
+      navigate('Jogo', {petName: name, petId: id});
     } catch (error) {
       console.log(error);
       showMessage({
@@ -128,7 +128,7 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
   return (
     <Card mode="contained" style={styles.cardContent}>
       <View style={styles.imageContainer}>
-        <Image size={80} source={require('../../imagens/tamagochi.png')} />
+        <Image size={80} source={require('../../imagens/coxinha.png')} />
       </View>
       <View style={styles.titleContainer}>
         <Title

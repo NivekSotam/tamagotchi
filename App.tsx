@@ -13,9 +13,9 @@ import GamePet from './src/screens/GamePet';
 import useUserStore from './src/helpers/config/storeToken';
 
 const Stack = createNativeStackNavigator();
-const store = useUserStore();
 
 function App(): JSX.Element {
+  const store = useUserStore();
   return (
     <PaperProvider>
       <NavigationContainer>
