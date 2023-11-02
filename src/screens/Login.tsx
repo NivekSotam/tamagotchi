@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import axios, {AxiosError} from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useUserStore from '../stores/userStore';
+import useUserStore from '../helpers/config/storeToken';
 
 const styles = StyleSheet.create({
   container: {

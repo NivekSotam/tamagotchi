@@ -1,6 +1,6 @@
 import React from 'react';
 import {Snackbar} from 'react-native-paper';
-import useFeedbackStore from '../stores/feedback';
+import useFeedbackStore from '../helpers/config/feedback';
 
 const Feedback = () => {
   const {message, visible, reset} = useFeedbackStore();

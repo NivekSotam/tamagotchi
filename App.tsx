@@ -2,7 +2,6 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {IconButton, Provider as PaperProvider} from 'react-native-paper';
-import useUserStore from './src/stores/userStore';
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
 import Register from './src/screens/Register';
@@ -10,11 +9,13 @@ import CreatePet from './src/screens/CreatePet';
 import Feedback from './src/components/Feedback';
 import {colors} from './src/styles/colors';
 import EditPet from './src/screens/EditPet';
+import GamePet from './src/screens/GamePet';
+import useUserStore from './src/helpers/config/storeToken';
 
 const Stack = createNativeStackNavigator();
+const store = useUserStore();
 
 function App(): JSX.Element {
-  const store = useUserStore();
   return (
     <PaperProvider>
       <NavigationContainer>
@@ -71,6 +72,21 @@ function App(): JSX.Element {
                 component={EditPet}
                 options={{
                   title: 'Editar Bixinho',
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#4A60CE',
+                  },
+                  headerTintColor: '#fff',
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                  },
+                }}
+              />
+              <Stack.Screen
+                name="Jogo"
+                component={GamePet}
+                options={{
+                  title: 'joguinho',
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#4A60CE',

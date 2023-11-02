@@ -1,19 +1,6 @@
 import {create} from 'zustand';
-import axios from '../axios.config';
-
-type PetType = {
-  id: number;
-  name: string;
-  restLevel: number;
-  foodLevel: number;
-  funLevel: number;
-  life: number;
-};
-
-type Pets = {
-  pets: PetType[];
-  getPets: () => void;
-};
+import axios from '../../axios.config';
+import {Pets} from '../../types/Pets';
 
 const usePetsStore = create<Pets>(set => ({
   pets: [],

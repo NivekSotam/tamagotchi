@@ -1,5 +1,5 @@
 import axios from 'axios';
-import useUserStore from './stores/userStore';
+import useUserStore from './helpers/config/storeToken';
 
 const instance = axios.create({
   baseURL: 'https://tamagochiapi-clpsampedro.b4a.run',

@@ -1,15 +1,6 @@
 import {create} from 'zustand';
-
-export type FeedbackMessage = {
-  type: string;
-  message: string;
-  visible: boolean;
-};
-
-type ActionsFeedbackMessage = {
-  showMessage: (state: FeedbackMessage) => void;
-  reset: () => void;
-};
+import {FeedbackMessage} from '../../types/FeedbackMessage';
+import {ActionsFeedbackMessage} from '../../types/ActionsFeedbackMessage';
 
 const initialState: FeedbackMessage = {
   type: '',
