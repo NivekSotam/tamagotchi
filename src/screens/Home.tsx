@@ -5,9 +5,9 @@ import {colors} from '../styles/colors';
 import axios from '../axios.config';
 import {useNavigation} from '@react-navigation/native';
 import {PetType} from '../types/PetsType';
-import useFeedbackStore from '../helpers/config/feedback';
-import {FeedbackMessage} from '../types/FeedbackMessage';
 import usePetsStore from '../helpers/config/config.Pets';
+import useMenssageStore from '../helpers/config/useMenssageStore';
+import {CardMenssage} from '../types/CardMenssage';
 
 const {Title} = Card;
 const {Image} = Avatar;
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 });
 
 const ListItem = ({id, name, funLevel, life}: PetType) => {
-  const {showMessage} = useFeedbackStore();
+  const {showMessage} = useMenssageStore();
   const {getPets} = usePetsStore();
   const {navigate} = useNavigation<any>();
 
@@ -92,7 +92,7 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
       await axios.post(`/pet/${id}/rest`);
       showMessage({
         type: 'success',
-        message: 'Pet foi dormir',
+        message: 'Pet foi a mimir',
         visible: true,
       });
       getPets();
@@ -100,7 +100,7 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
       console.log(error);
       showMessage({
         type: 'error',
-        message: 'Seu pet não quer dormir, tente novamente mais tarde!',
+        message: 'Seu pet não quer mimir, tente novamente mais tarde!',
         visible: true,
       });
     }
@@ -180,7 +180,7 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
 
 const handleDelete = async (
   id: number,
-  showMessage: (state: FeedbackMessage) => void,
+  showMessage: (state: CardMenssage) => void,
   getPets: () => void,
 ) => {
   try {

@@ -1,12 +1,12 @@
 import {create} from 'zustand';
 
-type AuthState = {
+type tokenState = {
   token: string | null;
   setToken: (token: string) => void;
   resetToken: any;
 };
 
-const useUserStore = create<AuthState>(set => ({
+const useUserStore = create<tokenState>(set => ({
   token: null,
   setToken: token => set(() => ({token})),
 

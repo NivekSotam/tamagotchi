@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
 import InputText from '../components/InputText';
 import axios from '../axios.config';
-import useFeedbackStore from '../helpers/config/feedback';
 import {Button} from 'react-native-paper';
 import {validatePetName} from '../helpers/validation-helper';
 import usePetsStore from '../helpers/config/config.Pets';
+import useMenssageStore from '../helpers/config/useMenssageStore';
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -32,7 +32,7 @@ const EditPet = ({route, navigation}: any) => {
 
   const [name, setName] = useState<Input>({value: '', error: ''});
 
-  const {showMessage} = useFeedbackStore();
+  const {showMessage} = useMenssageStore();
   const {getPets} = usePetsStore();
 
   const handleSubmit = async () => {

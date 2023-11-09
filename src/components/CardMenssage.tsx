@@ -1,9 +1,9 @@
 import React from 'react';
 import {Snackbar} from 'react-native-paper';
-import useFeedbackStore from '../helpers/config/feedback';
+import useMenssageStore from '../helpers/config/useMenssageStore';
 
-const Feedback = () => {
-  const {message, visible, reset} = useFeedbackStore();
+const CardMenssage = () => {
+  const {message, visible, reset} = useMenssageStore();
 
   const handleDismiss = () => {
     reset();
@@ -16,4 +16,4 @@ const Feedback = () => {
   );
 };
 
-export default Feedback;
+export default CardMenssage;

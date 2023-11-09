@@ -85,13 +85,16 @@ const GamePet = ({route, navigation}: {route: any; navigation: any}) => {
       <View style={styles.actionsContainer}>
         {choices.map(choice => (
           <View key={choice.name} style={styles.choiceContainer}>
-            <IconButton
+            {/* <IconButton
               icon={choice.icon}
               size={20}
               iconColor={colors.secondary}
               onPress={() => handlePress(choice)}
             />
-            <Text>{choice.name}</Text>
+            <Text>{choice.name}</Text> */}
+            <Button icon={choice.icon} onPress={() => handlePress(choice)}>
+              {choice.name}
+            </Button>
           </View>
         ))}
       </View>
