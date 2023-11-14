@@ -115,6 +115,7 @@ const ListItem = ({id, name, funLevel, life}: PetType) => {
         visible: true,
       });
       navigate('Jogo', {petName: name, petId: id});
+      getPets();
     } catch (error) {
       console.log(error);
       showMessage({

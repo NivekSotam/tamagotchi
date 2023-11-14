@@ -6,11 +6,10 @@ import Home from './src/screens/Home';
 import Login from './src/screens/Login';
 import Register from './src/screens/Register';
 import CreatePet from './src/screens/CreatePet';
-import Feedback from './src/components/Feedback';
-import {colors} from './src/styles/colors';
 import EditPet from './src/screens/EditPet';
 import GamePet from './src/screens/GamePet';
 import useUserStore from './src/helpers/config/storeToken';
+import CardMenssage from './src/components/CardMenssage';
 
 const Stack = createNativeStackNavigator();
 
@@ -132,7 +131,7 @@ function App(): JSX.Element {
           />
         </Stack.Navigator>
       </NavigationContainer>
-      <Feedback />
+      <CardMenssage />
     </PaperProvider>
   );
 }
